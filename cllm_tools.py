@@ -42,13 +42,15 @@ def file_reader(filename: str, filepath: str = "./") -> str:
 
 
 @tool("file_writer")
-def file_writer(filename: str, filepath: str = "./", content: str = "") -> bool:
+def file_writer(filename: str, filepath: str = "./", content: str = "") -> str:
     """
     Write content to file.
-    Returns True if success, otherwise False
+    Returns True or exception
     """
     try:
         file_path = safePath(os.path.join(filepath, filename))
+        if not os.path.isdir(file_path):
+            os.makedirs(safePath(filepath))
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
         return True
